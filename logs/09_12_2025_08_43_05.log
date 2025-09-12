@@ -1,0 +1,14 @@
+[2025-09-12 08:43:07,811] 74 dagshub.auth.tokens - INFO - Removed expired tokens from the token cache
+[2025-09-12 08:43:13,688] 1025 httpx - INFO - HTTP Request: POST https://dagshub.com/login/oauth/middleman "HTTP/1.1 200 OK"
+[2025-09-12 08:43:14,724] 1025 httpx - INFO - HTTP Request: POST https://dagshub.com/login/oauth/access_token "HTTP/1.1 200 OK"
+[2025-09-12 08:43:15,975] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-09-12 08:43:15,980] 107 dagshub - INFO - Accessing as Assis-Mohanty
+[2025-09-12 08:43:17,035] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/Assis-Mohanty/NetworkSecurityQ "HTTP/1.1 200 OK"
+[2025-09-12 08:43:17,938] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-09-12 08:43:17,942] 107 dagshub - INFO - Initialized MLflow to track repo "Assis-Mohanty/NetworkSecurityQ"
+[2025-09-12 08:43:17,943] 107 dagshub - INFO - Repository Assis-Mohanty/NetworkSecurityQ initialized!
+[2025-09-12 08:43:18,910] 114 fastapi - ERROR - Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+

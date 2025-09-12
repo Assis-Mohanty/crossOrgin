@@ -1,0 +1,6 @@
+[2025-09-12 09:06:55,758] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-09-12 09:06:55,762] 107 dagshub - INFO - Accessing as Assis-Mohanty
+[2025-09-12 09:06:56,552] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/Assis-Mohanty/NetworkSecurityQ "HTTP/1.1 200 OK"
+[2025-09-12 09:06:57,110] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-09-12 09:06:57,111] 107 dagshub - INFO - Initialized MLflow to track repo "Assis-Mohanty/NetworkSecurityQ"
+[2025-09-12 09:06:57,112] 107 dagshub - INFO - Repository Assis-Mohanty/NetworkSecurityQ initialized!

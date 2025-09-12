@@ -1,0 +1,11 @@
+[2025-09-12 08:43:27,895] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-09-12 08:43:27,903] 107 dagshub - INFO - Accessing as Assis-Mohanty
+[2025-09-12 08:43:28,576] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/Assis-Mohanty/NetworkSecurityQ "HTTP/1.1 200 OK"
+[2025-09-12 08:43:29,173] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-09-12 08:43:29,175] 107 dagshub - INFO - Initialized MLflow to track repo "Assis-Mohanty/NetworkSecurityQ"
+[2025-09-12 08:43:29,176] 107 dagshub - INFO - Repository Assis-Mohanty/NetworkSecurityQ initialized!
+[2025-09-12 08:43:29,567] 114 fastapi - ERROR - Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
