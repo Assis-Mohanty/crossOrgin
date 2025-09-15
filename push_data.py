@@ -15,8 +15,8 @@ ca=certifi.where()
 import pandas as pd 
 import numpy as np
 import pymongo
-from networksecurity.exceptions.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
+from terranova.exceptions.exception import NetworkSecurityException
+from terranova.logging.logger import logging
 
 class NetworkDataExtract():
     def __init__(self):

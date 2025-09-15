@@ -1,18 +1,18 @@
 import os
 import sys
 
-from networksecurity.exceptions.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
+from terranova.exceptions.exception import NetworkSecurityException
+from terranova.logging.logger import logging
 
-from networksecurity.entity.artifact_entity import DataTransformationArtifact,ClassificationMatricArtifact,ModelTrainerArtifact
-from networksecurity.entity.config_entity import ModelTrainerConfig
+from terranova.entity.artifact_entity import DataTransformationArtifact,ClassificationMatricArtifact,ModelTrainerArtifact
+from terranova.entity.config_entity import ModelTrainerConfig
 
-from networksecurity.utils.main_utils.utils import evaluate_models, save_object,load_object
+from terranova.utils.main_utils.utils import evaluate_models, save_object,load_object
         
-from networksecurity.utils.main_utils.utils import load_numpy_array_data
-from networksecurity.utils.ml_utils import model
-from networksecurity.utils.ml_utils.metric.classification_metric import get_classification_metrics
-from networksecurity.utils.ml_utils.model.estimator import NetworkModel
+from terranova.utils.main_utils.utils import load_numpy_array_data
+from terranova.utils.ml_utils import model
+from terranova.utils.ml_utils.metric.classification_metric import get_classification_metrics
+from terranova.utils.ml_utils.model.estimator import NetworkModel
 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
@@ -79,13 +79,13 @@ class ModelTrainer:
                 'n_estimators' :[8,16,32,64,128,256]
             }
         }
-    model_report:dict=evaluate_models(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,models=models,params=params)
-        best_model_score=max(sorted(model_report.values()))
-        best_model_name=list(model_report.keys())[list(model_report.values()).index(best_model_score)]
-        best_model=models[best_model_name]
-        best_model.fit(x_train,y_train)
-        y_train_pred=best_model.predict(x_train)
-        y_test_pred=best_model.predict(x_test)
+        model_report:dict = evaluate_models(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, models=models, params=params)
+        best_model_score = max(sorted(model_report.values()))
+        best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
+        best_model = models[best_model_name]
+        best_model.fit(x_train, y_train)
+        y_train_pred = best_model.predict(x_train)
+        y_test_pred = best_model.predict(x_test)
 
         # Regression metrics
         train_r2 = r2_score(y_train, y_train_pred)
@@ -96,6 +96,7 @@ class ModelTrainer:
         test_mse = mean_squared_error(y_test, y_test_pred)
 
         # Log metrics to MLflow
+        import pickle
         with mlflow.start_run():
             mlflow.log_metric("train_r2", train_r2)
             mlflow.log_metric("train_mae", train_mae)
@@ -103,18 +104,22 @@ class ModelTrainer:
             mlflow.log_metric("test_r2", test_r2)
             mlflow.log_metric("test_mae", test_mae)
             mlflow.log_metric("test_mse", test_mse)
-            mlflow.sklearn.log_model(best_model,"model")
+            # Save model to file and log as artifact (DagsHub MLflow workaround)
+            with open("model.pkl", "wb") as f:
+                pickle.dump(best_model, f)
+            mlflow.log_artifact("model.pkl")
+            os.remove("model.pkl")
 
-        preprocssor=load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
-        model_dir_path=os.path.dirname(self.model_trainer_config.trained_model_file_path)
-        os.makedirs(model_dir_path,exist_ok=True)
+        preprocssor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
+        model_dir_path = os.path.dirname(self.model_trainer_config.trained_model_file_path)
+        os.makedirs(model_dir_path, exist_ok=True)
 
-        Network_Model=NetworkModel(preprocessor=preprocssor,model=best_model)
-        save_object(self.model_trainer_config.trained_model_file_path,obj=Network_Model)
-        save_object("final_model/model.pkl",best_model)
+        Network_Model = NetworkModel(preprocessor=preprocssor, model=best_model)
+        save_object(self.model_trainer_config.trained_model_file_path, obj=Network_Model)
+        save_object("final_model/model.pkl", best_model)
 
         # You may want to create a regression metric artifact, but for now, return the scores
-        model_trainer_artifact=ModelTrainerArtifact(
+        model_trainer_artifact = ModelTrainerArtifact(
             trained_model_file_path=self.model_trainer_config.trained_model_file_path,
             train_metric_artifact={"r2": train_r2, "mae": train_mae, "mse": train_mse},
             test_metric_artifact={"r2": test_r2, "mae": test_mae, "mse": test_mse}

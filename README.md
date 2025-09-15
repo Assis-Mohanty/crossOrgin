@@ -1,7 +1,7 @@
 
 ---
 
-# NetworkSecurityQ
+# crossOrgin
 
 A machine learning web application for detecting network security threats using FastAPI. This project allows users to train a model on network data and make real-time predictions through a web interface. It integrates with MongoDB for data storage and supports an end-to-end pipeline including ingestion, validation, transformation, training, and inference.
 
@@ -40,7 +40,7 @@ A machine learning web application for detecting network security threats using 
 ```bash
 # Clone the repository
 git clone <repo-url>
-cd NetworkSecurityQ
+cd crossOrgin
 
 # Create and activate a virtual environment (optional but recommended)
 python -m venv venv

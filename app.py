@@ -9,9 +9,9 @@ load_dotenv()
 mongo_db_url = os.getenv("MONDO_DB_URL")
 print(mongo_db_url)
 import pymongo
-from networksecurity.exceptions.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
-from networksecurity.pipeline.traning_pipeline import TrainingPipeline
+from terranova.exceptions.exception import NetworkSecurityException
+from terranova.logging.logger import logging
+from terranova.pipeline.traning_pipeline import TrainingPipeline
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File, UploadFile,Request
@@ -20,15 +20,15 @@ from fastapi.responses import Response
 from starlette.responses import RedirectResponse
 import pandas as pd
 
-from networksecurity.utils.main_utils.utils import load_object
+from terranova.utils.main_utils.utils import load_object
 
-from networksecurity.utils.ml_utils.model.estimator import NetworkModel
+from terranova.utils.ml_utils.model.estimator import NetworkModel
 
 
 client = pymongo.MongoClient(mongo_db_url, tlsCAFile=ca)
 
-from networksecurity.constants.training_pipeline import DATA_INGESTION_COLLECTION_NAME
-from networksecurity.constants.training_pipeline import DATA_INGESTION_DATABASE_NAME
+from terranova.constants.training_pipeline import DATA_INGESTION_COLLECTION_NAME
+from terranova.constants.training_pipeline import DATA_INGESTION_DATABASE_NAME
 
 database = client[DATA_INGESTION_DATABASE_NAME]
 collection = database[DATA_INGESTION_COLLECTION_NAME]
@@ -63,21 +63,21 @@ async def train_route():
 @app.post("/predict")
 async def predict_route(request: Request,file: UploadFile = File(...)):
     try:
-        df=pd.read_csv(file.file)
-        preprocesor=load_object("final_model/preprocessing.pkl")
-        final_model=load_object("final_model/model.pkl")
-        network_model = NetworkModel(preprocessor=preprocesor,model=final_model)
+        df = pd.read_csv(file.file)
+        preprocesor = load_object("final_model/preprocessing.pkl")
+        final_model = load_object("final_model/model.pkl")
+        network_model = NetworkModel(preprocessor=preprocesor, model=final_model)
         print(df.iloc[0])
         y_pred = network_model.predict(df)
         print(y_pred)
         df['predicted_column'] = y_pred
         print(df['predicted_column'])
+        os.makedirs('prediction_output', exist_ok=True)
         df.to_csv('prediction_output/output.csv')
         table_html = df.to_html(classes='table table-striped')
         return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
-        
     except Exception as e:
-            raise NetworkSecurityException(e,sys)
+        raise NetworkSecurityException(e, sys)
 
     
 if __name__=="__main__":

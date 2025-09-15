@@ -1,13 +1,13 @@
-from networksecurity.components import data_transformation, model_trainer
-from networksecurity.components.model_trainer import ModelTrainer
-from networksecurity.components.data_ingestion import DataIngestion
-from networksecurity.components.data_validation import DataValidation
-from networksecurity.components.data_transformation import DataTransformation
-from networksecurity.exceptions.exception import NetworkSecurityException
-from networksecurity.logging.logger import logging
-from networksecurity.entity.config_entity import DataIngestionConfig, DataTransformationConfig,DataValidationConfig, ModelTrainerConfig
-from networksecurity.entity.artifact_entity import DataIngestionArtifact
-from networksecurity.entity.config_entity import TrainingPipelineConfig
+from terranova.components import data_transformation, model_trainer
+from terranova.components.model_trainer import ModelTrainer
+from terranova.components.data_ingestion import DataIngestion
+from terranova.components.data_validation import DataValidation
+from terranova.components.data_transformation import DataTransformation
+from terranova.exceptions.exception import NetworkSecurityException
+from terranova.logging.logger import logging
+from terranova.entity.config_entity import DataIngestionConfig, DataTransformationConfig,DataValidationConfig, ModelTrainerConfig
+from terranova.entity.artifact_entity import DataIngestionArtifact
+from terranova.entity.config_entity import TrainingPipelineConfig
 import sys
 
 if __name__=='__main__':
